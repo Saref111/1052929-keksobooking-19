@@ -1,7 +1,7 @@
 # Личный проект «Кексобукинг» [![Build status][travis-image]][travis-url]
 
 * Студент: [Иван Боровик](https://up.htmlacademy.ru/javascript/19/user/1052929).
-* Наставник: `Неизвестно`.
+* Наставник: [Виталий Кудла](https://htmlacademy.ru/profile/id40193).
 
 ---
 
