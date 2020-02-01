@@ -5,6 +5,8 @@ var rentObjectType = ['palace', 'flat', 'house', 'bungalo'];
 var rentObjectCheckTime = ['12:00', '13:00', '14:00'];
 var rentObjectFeatures = ['wifi', 'dishwasher', 'parking', 'washer', 'elevator', 'conditioner'];
 var map = document.querySelector('.map');
+var mapPins = document.querySelector('.map__pins');
+var pinTemplate = document.querySelector('#pin').content.querySelector('.map__pin');
 
 map.classList.remove('map--faded');
 
@@ -61,3 +63,11 @@ var getRentObjects = function () {
 };
 
 getRentObjects();
+
+
+
+for (var i = 0; i < rentObjects.length; i++) {
+  var pinElement = pinTemplate.cloneNode(true);
+  pinElement.style = 'left: ' + (rentObjects[i].location.x - 40) + 'px; top:' + (rentObjects[i].location.y - 40) + 'px;';
+  mapPins.appendChild(pinElement);
+}
