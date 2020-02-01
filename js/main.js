@@ -66,6 +66,6 @@ getRentObjects();
 
 for (var i = 0; i < rentObjects.length; i++) {
   var pinElement = pinTemplate.cloneNode(true);
-  pinElement.style = 'left: ' + (rentObjects[i].location.x - 40) + 'px; top:' + (rentObjects[i].location.y - 40) + 'px;';
+  pinElement.style = 'left: ' + (rentObjects[i].location.x - 50) + 'px; top:' + (rentObjects[i].location.y - 70) + 'px;';
   mapPins.appendChild(pinElement);
 }
