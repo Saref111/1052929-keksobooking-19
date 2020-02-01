@@ -64,8 +64,6 @@ var getRentObjects = function () {
 
 getRentObjects();
 
-
-
 for (var i = 0; i < rentObjects.length; i++) {
   var pinElement = pinTemplate.cloneNode(true);
   pinElement.style = 'left: ' + (rentObjects[i].location.x - 40) + 'px; top:' + (rentObjects[i].location.y - 40) + 'px;';
