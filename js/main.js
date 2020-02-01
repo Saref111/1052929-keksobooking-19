@@ -10,7 +10,7 @@ map.classList.remove('map--faded');
 
 var getRandomInt = function (max) {
   return Math.floor(Math.random() * Math.floor(max));
-}
+};
 
 var getRentObjects = function () {
   for (var i = 0; i < 8; i++) {
@@ -18,7 +18,7 @@ var getRentObjects = function () {
 
     rentObjects[i].author = {
       avatar: 'img/avatars/user0' + (i + 1) + '.png'
-    }
+    };
 
     var currentObjectFeatures = [];
     for (var j = 0; j < rentObjectFeatures.length; j++) {
@@ -30,12 +30,12 @@ var getRentObjects = function () {
     }
 
     if (currentObjectFeatures.length === 0) {
-      currentObjectFeatures.push(rentObjectFeatures[getRandomInt(6) + 1])
+      currentObjectFeatures.push(rentObjectFeatures[getRandomInt(6) + 1]);
     }
 
     var currentObjectPhotos = [];
-    for (var j = 0; j < getRandomInt(5) + 1; j++) {
-      currentObjectPhotos.push('http://o0.github.io/assets/images/tokyo/hotel'+ (j + 1) +'.jpg');
+    for (var k = 0; k < getRandomInt(5) + 1; k++) {
+      currentObjectPhotos.push('http://o0.github.io/assets/images/tokyo/hotel' + (k + 1) + '.jpg');
     }
 
     rentObjects[i].offer = {
@@ -50,12 +50,12 @@ var getRentObjects = function () {
       features: currentObjectFeatures,
       description: 'Very good place',
       photos: currentObjectPhotos
-    }
+    };
 
     rentObjects[i].location = {
       x: getRandomInt(map.offsetWidth + 1),
       y: getRandomInt(map.offsetHeight + 1)
-    }
+    };
 
   }
 };
