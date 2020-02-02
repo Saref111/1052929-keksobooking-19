@@ -44,11 +44,11 @@ var getRentObjects = function () {
       title: 'Apartment #' + (i + 1),
       address: ((i + 1) * 100) + ', ' + ((i + 1) * 50),
       price: Math.floor(10000 / (i + 1)),
-      type: rentObjectType[Math.floor(Math.random() * rentObjectType.length)],
-      rooms: Math.floor(Math.random() * 10) + 1,
-      guests: Math.floor(Math.random() * 5) + 1,
-      checkin: rentObjectCheckTime[Math.floor(Math.random() * rentObjectType.length)],
-      checkout: rentObjectCheckTime[Math.floor(Math.random() * rentObjectType.length)],
+      type: rentObjectType[getRandomInt(rentObjectType.length)],
+      rooms: getRandomInt(10) + 1,
+      guests: getRandomInt(5) + 1,
+      checkin: rentObjectCheckTime[getRandomInt(rentObjectCheckTime.length)],
+      checkout: rentObjectCheckTime[getRandomInt(rentObjectCheckTime.length)],
       features: currentObjectFeatures,
       description: 'Very good place',
       photos: currentObjectPhotos
@@ -62,10 +62,20 @@ var getRentObjects = function () {
   }
 };
 
-getRentObjects();
+var showPins = function () {
+  var fragment = document.createDocumentFragment();
 
-for (var i = 0; i < rentObjects.length; i++) {
-  var pinElement = pinTemplate.cloneNode(true);
-  pinElement.style = 'left: ' + (rentObjects[i].location.x - 50) + 'px; top:' + (rentObjects[i].location.y - 70) + 'px;';
-  mapPins.appendChild(pinElement);
+  for (var i = 0; i < rentObjects.length; i++) {
+    var pinElement = pinTemplate.cloneNode(true);
+    var pinImage = pinElement.querySelector('img');
+    pinElement.style = 'left: ' + (rentObjects[i].location.x - 50) + 'px; top:' + (rentObjects[i].location.y - 70) + 'px;';
+    pinImage.src = rentObjects[i].author.avatar;
+    pinImage.alt = rentObjects[i].offer.title;
+    fragment.appendChild(pinElement);
+  }
+
+  mapPins.appendChild(fragment);
 }
+
+getRentObjects();
+showPins();
