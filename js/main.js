@@ -75,7 +75,7 @@ var showPins = function () {
   }
 
   mapPins.appendChild(fragment);
-}
+};
 
 getRentObjects();
 showPins();
