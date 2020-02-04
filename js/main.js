@@ -6,6 +6,7 @@ var rentObjectFeatures = ['wifi', 'dishwasher', 'parking', 'washer', 'elevator',
 var map = document.querySelector('.map');
 var mapPins = document.querySelector('.map__pins');
 var pinTemplate = document.querySelector('#pin').content.querySelector('.map__pin');
+var ROOMS = 10;
 
 map.classList.remove('map--faded');
 
@@ -56,7 +57,7 @@ var getRentObjects = function () {
       address: ((i + 1) * 100) + ', ' + ((i + 1) * 50),
       price: Math.floor(10000 / (i + 1)),
       type: rentObjectType[getRandomInt(rentObjectType.length)],
-      rooms: getRandomInt(10) + 1,
+      rooms: getRandomInt(ROOMS) + 1,
       guests: getRandomInt(5) + 1,
       checkin: rentObjectCheckTime[getRandomInt(rentObjectCheckTime.length)],
       checkout: rentObjectCheckTime[getRandomInt(rentObjectCheckTime.length)],
