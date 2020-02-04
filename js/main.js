@@ -15,23 +15,23 @@ var getRandomInt = function (max) {
   return Math.floor(Math.random() * Math.floor(max));
 };
 
-var getCurrentObjectFeatures = function (rentObjectFeatures) {
+var getCurrentObjectFeatures = function (ObjectFeatures) {
   var currentObjectFeatures = [];
 
-  for (var i = 0; i < rentObjectFeatures.length; i++) {
+  for (var i = 0; i < ObjectFeatures.length; i++) {
     var sendIndex = getRandomInt(2);
 
     if (sendIndex === 1) {
-      currentObjectFeatures.push(rentObjectFeatures[i]);
+      currentObjectFeatures.push(ObjectFeatures[i]);
     }
   }
 
   if (currentObjectFeatures.length === 0) {
-    currentObjectFeatures.push(rentObjectFeatures[4]); // Почему тут 6 рандомная цифра? Или может быть любая другая? Посталю пока 4, ведь длина массива - уже равно 6
+    currentObjectFeatures.push(ObjectFeatures[4]); // Почему тут 6 рандомная цифра? Или может быть любая другая? Посталю пока 4, ведь длина массива - уже равно 6
   }
 
   return currentObjectFeatures;
-}
+};
 
 var getCurrentObjectPhotos = function (count) {
   var currentObjectPhotos = [];
@@ -41,7 +41,7 @@ var getCurrentObjectPhotos = function (count) {
   }
 
   return currentObjectPhotos;
-}
+};
 
 var getRentObjects = function () {
   var rentObjects = [];
