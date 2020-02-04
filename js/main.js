@@ -12,7 +12,7 @@ var countRentObjects = 8;
 
 var showMap = function () {
   map.classList.remove('map--faded');
-}
+};
 
 var getRandomInt = function (max) {
   return Math.floor(Math.random() * Math.floor(max)) + 1;
