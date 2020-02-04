@@ -1,6 +1,5 @@
 'use strict';
 
-var rentObjects = [];
 var rentObjectType = ['palace', 'flat', 'house', 'bungalo'];
 var rentObjectCheckTime = ['12:00', '13:00', '14:00'];
 var rentObjectFeatures = ['wifi', 'dishwasher', 'parking', 'washer', 'elevator', 'conditioner'];
@@ -26,7 +25,7 @@ var getCurrentObjectFeatures = function (rentObjectFeatures) {
   }
 
   if (currentObjectFeatures.length === 0) {
-    currentObjectFeatures.push(rentObjectFeatures[4]); // Почему тут шесть рандомная цифра? Или может быть любая другая? Посталю пока 4, ведь длина массива - уже равно 6
+    currentObjectFeatures.push(rentObjectFeatures[4]); // Почему тут 6 рандомная цифра? Или может быть любая другая? Посталю пока 4, ведь длина массива - уже равно 6
   }
 
   return currentObjectFeatures;
@@ -43,6 +42,8 @@ var getCurrentObjectPhotos = function (count) {
 }
 
 var getRentObjects = function () {
+  var rentObjects = [];
+
   for (var i = 0; i < 8; i++) {
     rentObjects[i] = {};
 
@@ -70,6 +71,8 @@ var getRentObjects = function () {
     };
 
   }
+
+  return rentObjects;
 };
 
 var showPins = function () {
