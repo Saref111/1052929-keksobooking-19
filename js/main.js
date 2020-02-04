@@ -32,6 +32,16 @@ var getCurrentObjectFeatures = function (rentObjectFeatures) {
   return currentObjectFeatures;
 }
 
+var getCurrentObjectPhotos = function (count) {
+  var currentObjectPhotos = [];
+
+  for (var k = 0; k < getRandomInt(count) + 1; k++) {
+    currentObjectPhotos.push('http://o0.github.io/assets/images/tokyo/hotel' + (k + 1) + '.jpg');
+  }
+
+  return currentObjectPhotos;
+}
+
 var getRentObjects = function () {
   for (var i = 0; i < 8; i++) {
     rentObjects[i] = {};
@@ -39,13 +49,6 @@ var getRentObjects = function () {
     rentObjects[i].author = {
       avatar: 'img/avatars/user0' + (i + 1) + '.png'
     };
-
-
-
-    var currentObjectPhotos = [];
-    for (var k = 0; k < getRandomInt(5) + 1; k++) {
-      currentObjectPhotos.push('http://o0.github.io/assets/images/tokyo/hotel' + (k + 1) + '.jpg');
-    }
 
     rentObjects[i].offer = {
       title: 'Apartment #' + (i + 1),
@@ -58,7 +61,7 @@ var getRentObjects = function () {
       checkout: rentObjectCheckTime[getRandomInt(rentObjectCheckTime.length)],
       features: getCurrentObjectFeatures(rentObjectFeatures),
       description: 'Very good place',
-      photos: currentObjectPhotos
+      photos: getCurrentObjectPhotos(5)
     };
 
     rentObjects[i].location = {
