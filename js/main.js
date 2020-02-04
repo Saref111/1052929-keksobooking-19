@@ -8,11 +8,14 @@ var mapPins = document.querySelector('.map__pins');
 var pinTemplate = document.querySelector('#pin').content.querySelector('.map__pin');
 var ROOMS = 10;
 var GUESTS = 5;
+var countRentObjects = 8;
 
-map.classList.remove('map--faded');
+var showMap = function () {
+  map.classList.remove('map--faded');
+}
 
 var getRandomInt = function (max) {
-  return Math.floor(Math.random() * Math.floor(max));
+  return Math.floor(Math.random() * Math.floor(max)) + 1;
 };
 
 var getCurrentObjectFeatures = function (ObjectFeatures) {
@@ -27,7 +30,7 @@ var getCurrentObjectFeatures = function (ObjectFeatures) {
   }
 
   if (currentObjectFeatures.length === 0) {
-    currentObjectFeatures.push(ObjectFeatures[4]); // Почему тут 6 рандомная цифра? Или может быть любая другая? Посталю пока 4, ведь длина массива - уже равно 6
+    currentObjectFeatures.push(getRandomInt(ObjectFeatures.length));
   }
 
   return currentObjectFeatures;
@@ -36,17 +39,17 @@ var getCurrentObjectFeatures = function (ObjectFeatures) {
 var getCurrentObjectPhotos = function (count) {
   var currentObjectPhotos = [];
 
-  for (var k = 0; k < getRandomInt(count) + 1; k++) {
+  for (var k = 0; k < getRandomInt(count); k++) {
     currentObjectPhotos.push('http://o0.github.io/assets/images/tokyo/hotel' + (k + 1) + '.jpg');
   }
 
   return currentObjectPhotos;
 };
 
-var getRentObjects = function () {
+var getRentObjects = function (count) {
   var rentObjects = [];
 
-  for (var i = 0; i < 8; i++) {
+  for (var i = 0; i < count; i++) {
     rentObjects[i] = {};
 
     rentObjects[i].author = {
@@ -58,8 +61,8 @@ var getRentObjects = function () {
       address: ((i + 1) * 100) + ', ' + ((i + 1) * 50),
       price: Math.floor(10000 / (i + 1)),
       type: rentObjectType[getRandomInt(rentObjectType.length)],
-      rooms: getRandomInt(ROOMS) + 1, // Почему тут константа?
-      guests: getRandomInt(GUESTS) + 1, // И тут
+      rooms: getRandomInt(ROOMS),
+      guests: getRandomInt(GUESTS),
       checkin: rentObjectCheckTime[getRandomInt(rentObjectCheckTime.length)],
       checkout: rentObjectCheckTime[getRandomInt(rentObjectCheckTime.length)],
       features: getCurrentObjectFeatures(rentObjectFeatures),
@@ -68,8 +71,8 @@ var getRentObjects = function () {
     };
 
     rentObjects[i].location = {
-      x: getRandomInt(map.offsetWidth + 1),
-      y: getRandomInt(map.offsetHeight + 1)
+      x: getRandomInt(map.offsetWidth),
+      y: getRandomInt(map.offsetHeight)
     };
 
     if (rentObjects[i].location.y < 175) {
@@ -82,14 +85,16 @@ var getRentObjects = function () {
 
 var showPins = function () {
   var fragment = document.createDocumentFragment();
-  var rentObjects = getRentObjects();
+  var rentObjects = getRentObjects(countRentObjects);
 
   for (var i = 0; i < rentObjects.length; i++) {
     var pinElement = pinTemplate.cloneNode(true);
     var pinImage = pinElement.querySelector('img');
+
     pinElement.style = 'left: ' + (rentObjects[i].location.x - 50) + 'px; top:' + (rentObjects[i].location.y - 70) + 'px;';
     pinImage.src = rentObjects[i].author.avatar;
     pinImage.alt = rentObjects[i].offer.title;
+
     fragment.appendChild(pinElement);
   }
 
@@ -97,3 +102,4 @@ var showPins = function () {
 };
 
 showPins();
+showMap();
