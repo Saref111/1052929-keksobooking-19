@@ -58,8 +58,8 @@ var getRentObjects = function () {
       address: ((i + 1) * 100) + ', ' + ((i + 1) * 50),
       price: Math.floor(10000 / (i + 1)),
       type: rentObjectType[getRandomInt(rentObjectType.length)],
-      rooms: getRandomInt(ROOMS) + 1,
-      guests: getRandomInt(GUESTS) + 1,
+      rooms: getRandomInt(ROOMS) + 1, // Почему тут константа?
+      guests: getRandomInt(GUESTS) + 1, // И тут
       checkin: rentObjectCheckTime[getRandomInt(rentObjectCheckTime.length)],
       checkout: rentObjectCheckTime[getRandomInt(rentObjectCheckTime.length)],
       features: getCurrentObjectFeatures(rentObjectFeatures),
@@ -72,6 +72,9 @@ var getRentObjects = function () {
       y: getRandomInt(map.offsetHeight + 1)
     };
 
+    if (rentObjects[i].location.y < 175) {
+      rentObjects[i].location.y = 175;
+    }
   }
 
   return rentObjects;
@@ -79,6 +82,7 @@ var getRentObjects = function () {
 
 var showPins = function () {
   var fragment = document.createDocumentFragment();
+  var rentObjects = getRentObjects();
 
   for (var i = 0; i < rentObjects.length; i++) {
     var pinElement = pinTemplate.cloneNode(true);
@@ -92,5 +96,4 @@ var showPins = function () {
   mapPins.appendChild(fragment);
 };
 
-getRentObjects();
 showPins();
