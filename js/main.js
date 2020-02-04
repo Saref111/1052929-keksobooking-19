@@ -7,6 +7,7 @@ var map = document.querySelector('.map');
 var mapPins = document.querySelector('.map__pins');
 var pinTemplate = document.querySelector('#pin').content.querySelector('.map__pin');
 var ROOMS = 10;
+var GUESTS = 5;
 
 map.classList.remove('map--faded');
 
@@ -58,7 +59,7 @@ var getRentObjects = function () {
       price: Math.floor(10000 / (i + 1)),
       type: rentObjectType[getRandomInt(rentObjectType.length)],
       rooms: getRandomInt(ROOMS) + 1,
-      guests: getRandomInt(5) + 1,
+      guests: getRandomInt(GUESTS) + 1,
       checkin: rentObjectCheckTime[getRandomInt(rentObjectCheckTime.length)],
       checkout: rentObjectCheckTime[getRandomInt(rentObjectCheckTime.length)],
       features: getCurrentObjectFeatures(rentObjectFeatures),
