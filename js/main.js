@@ -14,6 +14,24 @@ var getRandomInt = function (max) {
   return Math.floor(Math.random() * Math.floor(max));
 };
 
+var getCurrentObjectFeatures = function (rentObjectFeatures) {
+  var currentObjectFeatures = [];
+
+  for (var i = 0; i < rentObjectFeatures.length; i++) {
+    var sendIndex = getRandomInt(2);
+
+    if (sendIndex === 1) {
+      currentObjectFeatures.push(rentObjectFeatures[i]);
+    }
+  }
+
+  if (currentObjectFeatures.length === 0) {
+    currentObjectFeatures.push(rentObjectFeatures[4]); // Почему тут шесть рандомная цифра? Или может быть любая другая? Посталю пока 4, ведь длина массива - уже равно 6
+  }
+
+  return currentObjectFeatures;
+}
+
 var getRentObjects = function () {
   for (var i = 0; i < 8; i++) {
     rentObjects[i] = {};
@@ -22,18 +40,7 @@ var getRentObjects = function () {
       avatar: 'img/avatars/user0' + (i + 1) + '.png'
     };
 
-    var currentObjectFeatures = [];
-    for (var j = 0; j < rentObjectFeatures.length; j++) {
-      var sendIndex = getRandomInt(2);
 
-      if (sendIndex === 1) {
-        currentObjectFeatures.push(rentObjectFeatures[j]);
-      }
-    }
-
-    if (currentObjectFeatures.length === 0) {
-      currentObjectFeatures.push(rentObjectFeatures[getRandomInt(6) + 1]);
-    }
 
     var currentObjectPhotos = [];
     for (var k = 0; k < getRandomInt(5) + 1; k++) {
@@ -49,7 +56,7 @@ var getRentObjects = function () {
       guests: getRandomInt(5) + 1,
       checkin: rentObjectCheckTime[getRandomInt(rentObjectCheckTime.length)],
       checkout: rentObjectCheckTime[getRandomInt(rentObjectCheckTime.length)],
-      features: currentObjectFeatures,
+      features: getCurrentObjectFeatures(rentObjectFeatures),
       description: 'Very good place',
       photos: currentObjectPhotos
     };
