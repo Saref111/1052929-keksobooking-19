@@ -18,7 +18,7 @@ var showMap = function () {
 };
 
 var getRandomInt = function (max) {
-  return Math.floor(Math.random() * Math.floor(max)) + 1;
+  return Math.floor(Math.random() * Math.floor(max));
 };
 
 var getCurrentObjectFeatures = function (ObjectFeatures) {
@@ -33,7 +33,7 @@ var getCurrentObjectFeatures = function (ObjectFeatures) {
   }
 
   if (currentObjectFeatures.length === 0) {
-    currentObjectFeatures.push(getRandomInt(ObjectFeatures.length));
+    currentObjectFeatures.push(ObjectFeatures[getRandomInt(ObjectFeatures.length)]);
   }
 
   return currentObjectFeatures;
