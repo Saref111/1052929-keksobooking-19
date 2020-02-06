@@ -177,4 +177,4 @@ var createCard = function (count) {
 
 showPins();
 showMap();
-createCard(countCards); // рпа  
+createCard(countCards);
