@@ -21,22 +21,18 @@ var getRandomInt = function (max) {
   return Math.floor(Math.random() * Math.floor(max));
 };
 
+var getRandomSlicedArray = function (arr) {
+  return arr.slice(0, getRandomInt(arr.length) + 1);
+};
+
 var getCurrentObjectFeatures = function (ObjectFeatures) {
   var currentObjectFeatures = [];
 
   for (var i = 0; i < ObjectFeatures.length; i++) {
-    var sendIndex = getRandomInt(2);
-
-    if (sendIndex === 1) {
-      currentObjectFeatures.push(ObjectFeatures[i]);
-    }
+    currentObjectFeatures.push(ObjectFeatures[i]);
   }
 
-  if (currentObjectFeatures.length === 0) {
-    currentObjectFeatures.push(ObjectFeatures[getRandomInt(ObjectFeatures.length)]);
-  }
-
-  return currentObjectFeatures;
+  return getRandomSlicedArray(currentObjectFeatures);
 };
 
 var getCurrentObjectPhotos = function (count) {
