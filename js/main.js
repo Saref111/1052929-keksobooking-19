@@ -117,6 +117,27 @@ var renderPhotos = function (imgArray, currentCard) {
   }
 };
 
+var getCurrentObjectFeaturesList = function (featuresArray, currentCard) {
+  var featuresList = currentCard.querySelector('.popup__features');
+  var featureTemplate = featuresList.querySelector('.popup__feature');
+
+  featureTemplate.classList.remove('popup__feature--wifi'); // НУжно ли делать более универсально?
+
+  while (featuresList.firstChild) {
+    featuresList.removeChild(featuresList.firstChild);
+  }
+
+  for (var i = 0; i < featuresArray.length; i++) {
+    var currentFeature = featureTemplate.cloneNode(true);
+    var featureClass = 'popup__feature--' + featuresArray[i];
+
+    currentFeature.classList.add(featureClass);
+    currentFeature.textContent = featuresArray[i];
+
+    featuresList.appendChild(currentFeature);
+  }
+};
+
 var getOfferType = function (card) {
   var objectType = '';
 
@@ -146,21 +167,21 @@ var createCard = function (count) {
     currentCard.querySelector('.popup__type').textContent = getOfferType(rentObjects[i]);
     currentCard.querySelector('.popup__text--capacity').textContent = rentObjects[i].offer.rooms + ' комнаты для ' + rentObjects[i].offer.guests + ' гостей';
     currentCard.querySelector('.popup__text--time').textContent = 'Заезд после ' + rentObjects[i].offer.checkin + ', выезд до ' + rentObjects[i].offer.checkout;
-    currentCard.querySelector('.popup__features').textContent = getFeaturesStroke(rentObjects[i].offer.features);
+    getCurrentObjectFeaturesList(rentObjects[i].offer.features, currentCard);
     currentCard.querySelector('.popup__description').textContent = rentObjects[i].offer.description;
     renderPhotos(rentObjects[i].offer.photos, currentCard);
     currentCard.querySelector('.popup__avatar').src = rentObjects[i].author.avatar;
 
-    var currentCardChildren = currentCard.children;
-    for (var j = 0; j < currentCardChildren.length; j++) {
-      if (currentCardChildren[j].tagName === 'IMG') {
-        if (currentCardChildren[j].src === '') {
-          currentCardChildren[j].style = 'display: none';
-        }
-      } else if (currentCardChildren[j].textContent === '') {
-        currentCardChildren[j].style = 'display: none';
-      }
-    }
+    // var currentCardChildren = currentCard.children;
+    // for (var j = 0; j < currentCardChildren.length; j++) {
+    //   if (currentCardChildren[j].tagName === 'IMG') {
+    //     if (currentCardChildren[j].src === '') {
+    //       currentCardChildren[j].style = 'display: none';
+    //     }
+    //   } else if (currentCardChildren[j].textContent === '') {
+    //     currentCardChildren[j].style = 'display: none';
+    //   }
+    // }
 
     fragment.appendChild(currentCard);
   }
