@@ -172,17 +172,6 @@ var createCard = function (count) {
     renderPhotos(rentObjects[i].offer.photos, currentCard);
     currentCard.querySelector('.popup__avatar').src = rentObjects[i].author.avatar;
 
-    // var currentCardChildren = currentCard.children;
-    // for (var j = 0; j < currentCardChildren.length; j++) {
-    //   if (currentCardChildren[j].tagName === 'IMG') {
-    //     if (currentCardChildren[j].src === '') {
-    //       currentCardChildren[j].style = 'display: none';
-    //     }
-    //   } else if (currentCardChildren[j].textContent === '') {
-    //     currentCardChildren[j].style = 'display: none';
-    //   }
-    // }
-
     fragment.appendChild(currentCard);
   }
 
