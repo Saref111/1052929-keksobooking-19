@@ -118,7 +118,7 @@ var getFeaturesStroke = function (featuresArray) {
   return featuresStroke;
 };
 
-var getImages = function (imgArray, currentCard) {
+var renderPhotos = function (imgArray, currentCard) {
   var photoWrapper = currentCard.querySelector('.popup__photos');
   var photoTemplate = photoWrapper.querySelector('.popup__photo');
   photoWrapper.removeChild(photoTemplate);
@@ -132,30 +132,38 @@ var getImages = function (imgArray, currentCard) {
   }
 };
 
+var getOfferType = function (card) {
+  var objectType = '';
+
+  if (card.offer.type === 'flat') {
+    objectType = 'Квартира';
+  } else if (card.offer.type === 'bungalo') {
+    objectType = 'Бунгало';
+  } else if (card.offer.type === 'house') {
+    objectType = 'Дом';
+  } else if (card.offer.type === 'palace') {
+    objectType = 'Дворец';
+  }
+
+  return objectType;
+};
+
 var createCard = function (count) {
   var fragment = document.createDocumentFragment();
   var rentObjects = getRentObjects(count);
 
-  for (var i = 0; i < count; i++) {
+  for (var i = 0; i < rentObjects.length; i++) {
     var currentCard = cardTemplate.cloneNode(true);
 
     currentCard.querySelector('.popup__title').textContent = rentObjects[i].offer.title;
     currentCard.querySelector('.popup__text--address').textContent = rentObjects[i].offer.address;
     currentCard.querySelector('.popup__text--price').textContent = rentObjects[i].offer.price + '₽/ночь';
-    if (rentObjects[i].offer.type === 'flat') {
-      currentCard.querySelector('.popup__type').textContent = 'Квартира';
-    } else if (rentObjects[i].offer.type === 'bungalo') {
-      currentCard.querySelector('.popup__type').textContent = 'Бунгало';
-    } else if (rentObjects[i].offer.type === 'house') {
-      currentCard.querySelector('.popup__type').textContent = 'Дом';
-    } else if (rentObjects[i].offer.type === 'palace') {
-      currentCard.querySelector('.popup__type').textContent = 'Дворец';
-    }
+    currentCard.querySelector('.popup__type').textContent = getOfferType(rentObjects[i]);
     currentCard.querySelector('.popup__text--capacity').textContent = rentObjects[i].offer.rooms + ' комнаты для ' + rentObjects[i].offer.guests + ' гостей';
     currentCard.querySelector('.popup__text--time').textContent = 'Заезд после ' + rentObjects[i].offer.checkin + ', выезд до ' + rentObjects[i].offer.checkout;
     currentCard.querySelector('.popup__features').textContent = getFeaturesStroke(rentObjects[i].offer.features);
     currentCard.querySelector('.popup__description').textContent = rentObjects[i].offer.description;
-    getImages(rentObjects[i].offer.photos, currentCard);
+    renderPhotos(rentObjects[i].offer.photos, currentCard);
     currentCard.querySelector('.popup__avatar').src = rentObjects[i].author.avatar;
 
     var currentCardChildren = currentCard.children;
