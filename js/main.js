@@ -100,24 +100,13 @@ var showPins = function () {
   mapPins.appendChild(fragment);
 };
 
-var getFeaturesStroke = function (featuresArray) {
-  var featuresStroke = '';
-
-  for (var i = 0; i < featuresArray.length; i++) {
-    if (i === featuresArray.length - 1) {
-      featuresStroke += featuresArray[i];
-    } else {
-      featuresStroke += featuresArray[i] + ', ';
-    }
-  }
-
-  return featuresStroke;
-};
-
 var renderPhotos = function (imgArray, currentCard) {
   var photoWrapper = currentCard.querySelector('.popup__photos');
   var photoTemplate = photoWrapper.querySelector('.popup__photo');
-  photoWrapper.removeChild(photoTemplate);
+
+  while (photoWrapper.firstChild) {
+    photoWrapper.removeChild(photoWrapper.firstChild);
+  }
 
   for (var i = 0; i < imgArray.length; i++) {
     var currentImg = photoTemplate.cloneNode(true);
