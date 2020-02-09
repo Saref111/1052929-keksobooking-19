@@ -16,10 +16,18 @@ var form = document.querySelector('.ad-form');
 var formFieldsets = form.querySelectorAll('fieldset');
 var mapFilters = document.querySelector('.map__filters');
 var mapFiltersElements = mapFilters.childNodes;
+var mainPin = map.querySelector('.map__pin--main');
 
 var showMap = function () {
   showPins();
+
+  form.classList.remove('ad-form--disabled');
+  enableElements(formFieldsets);
+
+  enableElements(mapFiltersElements);
+
   map.classList.remove('map--faded');
+  mainPin.removeEventListener('mousedown', showMap);
 };
 
 var disableElements = function (arr) {
@@ -29,6 +37,14 @@ var disableElements = function (arr) {
     }
   }
 };
+
+var enableElements  =function (arr) {
+  for (var i = 0; i < arr.length; i++) {
+    if (arr[i].nodeName !== '#text') {
+      arr[i].removeAttribute('disabled');
+    }
+  }
+}
 
 var getRandomInt = function (max) {
   return Math.floor(Math.random() * Math.floor(max));
@@ -195,3 +211,5 @@ var showPins = function () {
 
 disableElements(formFieldsets);
 disableElements(mapFiltersElements);
+
+mainPin.addEventListener('mousedown', showMap);
