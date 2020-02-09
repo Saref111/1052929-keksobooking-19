@@ -10,10 +10,13 @@ var ROOMS = 10;
 var GUESTS = 5;
 var countPhotos = 5;
 var countRentObjects = 8;
+var MAIN_PIN_WIDTH = 62;
+var MAIN_PIN_HEIGHT = 80;
 // var countCards = 1;
 // var cardTemplate = document.querySelector('#card').content.querySelector('.map__card');
 var form = document.querySelector('.ad-form');
 var formFieldsets = form.querySelectorAll('fieldset');
+var addressInput = form.querySelector('#address');
 var mapFilters = document.querySelector('.map__filters');
 var mapFiltersElements = mapFilters.childNodes;
 var mainPin = map.querySelector('.map__pin--main');
@@ -27,7 +30,7 @@ var showMap = function () {
   enableElements(mapFiltersElements);
 
   map.classList.remove('map--faded');
-  mainPin.removeEventListener('mousedown', showMap);
+  mainPin.removeEventListener('mousedown', showMapHandler);
 };
 
 var disableElements = function (arr) {
@@ -38,13 +41,43 @@ var disableElements = function (arr) {
   }
 };
 
-var enableElements  =function (arr) {
+var showMapHandler = function (evt) {
+  if (evt.button === 0 || evt.key === 'Enter') {
+    showMap();
+
+    addressInput.value = getAddress(mainPin);
+  }
+};
+
+var getAddress = function (element) {
+  var elementPositionX = element.style.top;
+  var elementPositionY = element.style.left;
+  var addressX = '';
+  var addressY = '';
+
+  for (var i = 0; i < elementPositionX.length - 2; i++) {
+    addressX += elementPositionX[i];
+  }
+
+  addressX = Number(addressX) + MAIN_PIN_WIDTH / 2;
+
+  for (var j = 0; j < elementPositionY.length - 2; j++) {
+    addressY += Number(elementPositionY[j]);
+  }
+
+  addressY = Number(addressY) + MAIN_PIN_HEIGHT;
+
+  return addressX + ' ' + addressY;
+};
+
+
+var enableElements = function (arr) {
   for (var i = 0; i < arr.length; i++) {
     if (arr[i].nodeName !== '#text') {
       arr[i].removeAttribute('disabled');
     }
   }
-}
+};
 
 var getRandomInt = function (max) {
   return Math.floor(Math.random() * Math.floor(max));
@@ -212,4 +245,5 @@ var showPins = function () {
 disableElements(formFieldsets);
 disableElements(mapFiltersElements);
 
-mainPin.addEventListener('mousedown', showMap);
+mainPin.addEventListener('mousedown', showMapHandler);
+mainPin.addEventListener('keydown', showMapHandler);
