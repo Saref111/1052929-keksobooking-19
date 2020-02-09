@@ -12,10 +12,22 @@ var countPhotos = 5;
 var countRentObjects = 8;
 // var countCards = 1;
 // var cardTemplate = document.querySelector('#card').content.querySelector('.map__card');
+var form = document.querySelector('.ad-form');
+var formFieldsets = form.querySelectorAll('fieldset');
+var mapFilters = document.querySelector('.map__filters');
+var mapFiltersElements = mapFilters.childNodes;
 
 var showMap = function () {
   showPins();
   map.classList.remove('map--faded');
+};
+
+var disableElements = function (arr) {
+  for (var i = 0; i < arr.length; i++) {
+    if (arr[i].nodeName !== '#text') {
+      arr[i].setAttribute('disabled', true);
+    }
+  }
 };
 
 var getRandomInt = function (max) {
@@ -180,3 +192,6 @@ var showPins = function () {
 // };
 
 // createCard(countCards);
+
+disableElements(formFieldsets);
+disableElements(mapFiltersElements);
