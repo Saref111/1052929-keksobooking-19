@@ -17,6 +17,11 @@ var MAIN_PIN_HEIGHT = 80;
 var form = document.querySelector('.ad-form');
 var formFieldsets = form.querySelectorAll('fieldset');
 var addressInput = form.querySelector('#address');
+var titleInput = form.querySelector('#title');
+var priceInput = form.querySelector('#price');
+var typeInput = form.querySelector('#type');
+var timeInInput = form.querySelector('#timein');
+var timeOutInput = form.querySelector('#timeout');
 var mapFilters = document.querySelector('.map__filters');
 var mapFiltersElements = mapFilters.childNodes;
 var mainPin = map.querySelector('.map__pin--main');
@@ -50,8 +55,8 @@ var showMapHandler = function (evt) {
 };
 
 var getAddress = function (element) {
-  var elementPositionX = element.style.top;
-  var elementPositionY = element.style.left;
+  var elementPositionX = element.style.left;
+  var elementPositionY = element.style.top;
   var addressX = '';
   var addressY = '';
 
@@ -242,8 +247,93 @@ var showPins = function () {
 
 // createCard(countCards);
 
+var elementLengthValidationHandler = function (evt) {
+  var target = evt.target;
+
+  if (target.validity.tooShort) {
+    target.setCustomValidity('Это поле должно состоять минимум из ' + target.minLength + ' символов.');
+  } else if (target.validity.tooLong) {
+    target.setCustomValidity('Это поле должно состоять максимум из ' + target.maxLength + ' символов.');
+  } else if (target.validity.valueMissing) {
+    target.setCustomValidity('Обязательное поле');
+  } else {
+    target.setCustomValidity('');
+  }
+};
+
+var elementInputCheckHandler = function (evt) {
+  var target = evt.target;
+
+  if (target.value.length < target.minLength) {
+    target.setCustomValidity('Это поле должно состоять минимум из ' + target.minLength + ' символов.');
+  } else {
+    target.setCustomValidity('');
+  }
+};
+
+var priceMaxMinValidationHandler = function () {
+  if (priceInput.value === '') {
+    priceInput.setCustomValidity('Обязательное поле');
+  } else if (Number(priceInput.value) < Number(priceInput.min)) {
+    priceInput.setCustomValidity('Значение этого поля не должно быть выше чем ' + priceInput.min);
+  } else if (Number(priceInput.value) > Number(priceInput.max)) {
+    priceInput.setCustomValidity('Значение этого поля не должно быть ниже чем ' + priceInput.max);
+  } else {
+    priceInput.setCustomValidity('');
+  }
+};
+
+var elementMaxMinInputCheckHandler = function (evt) {
+  var target = evt.target;
+
+  if (target.value === '') {
+    target.setCustomValidity('Обязательное поле');
+  } else if (target.value > target.min || target.value < target.max) {
+    target.setCustomValidity('');
+  }
+};
+
+var selectChangeHandler = function (evt) {
+  var target = evt.target;
+
+  if (target.value === 'bungalo') {
+    priceInput.min = 0;
+    priceInput.placeholder = 0;
+  } else if (target.value === 'flat') {
+    priceInput.min = 1000;
+    priceInput.placeholder = 1000;
+  } else if (target.value === 'house') {
+    priceInput.min = 5000;
+    priceInput.placeholder = 5000;
+  } else if (target.value === 'palace') {
+    priceInput.min = 10000;
+    priceInput.placeholder = 10000;
+  }
+};
+
+var timeCheckHandler = function (evt) {
+  var chosenInput = (evt.target === timeInInput) ? timeInInput : timeOutInput;
+  var remainingInput = (evt.target === timeInInput) ? timeOutInput : timeInInput;
+
+  if (chosenInput.value === '12:00') {
+    remainingInput.value = '12:00';
+  } else if (chosenInput.value === '13:00') {
+    remainingInput.value = '13:00';
+  } else if (chosenInput.value === '14:00') {
+    remainingInput.value = '14:00';
+  }
+};
+
 disableElements(formFieldsets);
 disableElements(mapFiltersElements);
 
 mainPin.addEventListener('mousedown', showMapHandler);
 mainPin.addEventListener('keydown', showMapHandler);
+
+titleInput.addEventListener('invalid', elementLengthValidationHandler);
+titleInput.addEventListener('input', elementInputCheckHandler);
+priceInput.addEventListener('invalid', priceMaxMinValidationHandler);
+priceInput.addEventListener('input', elementMaxMinInputCheckHandler);
+typeInput.addEventListener('change', selectChangeHandler);
+timeOutInput.addEventListener('change', timeCheckHandler);
+timeInInput.addEventListener('change', timeCheckHandler);
