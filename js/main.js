@@ -343,7 +343,7 @@ var compareRoomsGuestsHandler = function () {
     errorMassage = 'Столько комнат - не для гостей';
   }
 
-  roomsInput.setCustomValidity(errorMassage); //поменял дефолтные значения селектов в разметке на 2 комнаты для 2 гостей, чтобы избежать отправки неверных данных
+  roomsInput.setCustomValidity(errorMassage); // поменял дефолтные значения селектов в разметке на 2 комнаты для 2 гостей, чтобы избежать отправки неверных данных
 };
 
 var getInitialState = function () {
