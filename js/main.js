@@ -22,6 +22,8 @@ var priceInput = form.querySelector('#price');
 var typeInput = form.querySelector('#type');
 var timeInInput = form.querySelector('#timein');
 var timeOutInput = form.querySelector('#timeout');
+var roomsInput = form.querySelector('#room_number');
+var guestsInput = form.querySelector('#capacity');
 var mapFilters = document.querySelector('.map__filters');
 var mapFiltersElements = mapFilters.childNodes;
 var mainPin = map.querySelector('.map__pin--main');
@@ -51,6 +53,16 @@ var showMapHandler = function (evt) {
     showMap();
 
     addressInput.value = getAddress(mainPin);
+
+    titleInput.addEventListener('invalid', elementLengthValidationHandler);
+    titleInput.addEventListener('input', elementInputCheckHandler);
+    priceInput.addEventListener('invalid', priceMaxMinValidationHandler);
+    priceInput.addEventListener('input', elementMaxMinInputCheckHandler);
+    typeInput.addEventListener('change', selectChangeHandler);
+    timeOutInput.addEventListener('change', timeCheckHandler);
+    timeInInput.addEventListener('change', timeCheckHandler);
+    roomsInput.addEventListener('change', compareRoomsGuestsHandler);
+    guestsInput.addEventListener('change', compareRoomsGuestsHandler);
   }
 };
 
@@ -298,17 +310,15 @@ var selectChangeHandler = function (evt) {
 
   if (target.value === 'bungalo') {
     priceInput.min = 0;
-    priceInput.placeholder = 0;
   } else if (target.value === 'flat') {
     priceInput.min = 1000;
-    priceInput.placeholder = 1000;
   } else if (target.value === 'house') {
     priceInput.min = 5000;
-    priceInput.placeholder = 5000;
   } else if (target.value === 'palace') {
     priceInput.min = 10000;
-    priceInput.placeholder = 10000;
   }
+
+  priceInput.placeholder = priceInput.min;
 };
 
 var timeCheckHandler = function (evt) {
@@ -324,16 +334,27 @@ var timeCheckHandler = function (evt) {
   }
 };
 
-disableElements(formFieldsets);
-disableElements(mapFiltersElements);
+var compareRoomsGuestsHandler = function () {
+  var errorMassage = '';
 
-mainPin.addEventListener('mousedown', showMapHandler);
-mainPin.addEventListener('keydown', showMapHandler);
+  if (Number(roomsInput.value) < Number(guestsInput.value)) {
+    errorMassage = 'Количество комнат должно быть больше или равно количеству гостей';
+  } else if (Number(roomsInput.value) === 100 && Number(guestsInput.value) !== 0) {
+    errorMassage = 'Столько комнат - не для гостей';
+  }
 
-titleInput.addEventListener('invalid', elementLengthValidationHandler);
-titleInput.addEventListener('input', elementInputCheckHandler);
-priceInput.addEventListener('invalid', priceMaxMinValidationHandler);
-priceInput.addEventListener('input', elementMaxMinInputCheckHandler);
-typeInput.addEventListener('change', selectChangeHandler);
-timeOutInput.addEventListener('change', timeCheckHandler);
-timeInInput.addEventListener('change', timeCheckHandler);
+  roomsInput.setCustomValidity(errorMassage); //поменял дефолтные значения селектов в разметке на 2 комнаты для 2 гостей, чтобы избежать отправки неверных данных
+};
+
+var getInitialState = function () {
+  disableElements(formFieldsets);
+  disableElements(mapFiltersElements);
+
+  mainPin.addEventListener('mousedown', showMapHandler);
+  mainPin.addEventListener('keydown', showMapHandler);
+};
+
+getInitialState();
+
+
+// На селект чендж вешаем функцию которая сравнивает каррент значения двух селектов. Если сравнение не проходит то записываем текст ошибки. После сравнения даем сетКастомВалидити значение текста ошибки
