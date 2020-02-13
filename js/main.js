@@ -24,6 +24,8 @@ var timeInInput = form.querySelector('#timein');
 var timeOutInput = form.querySelector('#timeout');
 var roomsInput = form.querySelector('#room_number');
 var guestsInput = form.querySelector('#capacity');
+var avatarInput = form.querySelector('#avatar');
+var roomPictureInput = form.querySelector('#images');
 var mapFilters = document.querySelector('.map__filters');
 var mapFiltersElements = mapFilters.childNodes;
 var mainPin = map.querySelector('.map__pin--main');
@@ -63,6 +65,8 @@ var showMapHandler = function (evt) {
     timeInInput.addEventListener('change', timeCheckHandler);
     roomsInput.addEventListener('change', compareRoomsGuestsHandler);
     guestsInput.addEventListener('change', compareRoomsGuestsHandler);
+    avatarInput.addEventListener('input', checkFileTypeHandler);
+    roomPictureInput.addEventListener('input', checkFileTypeHandler);
   }
 };
 
@@ -352,6 +356,19 @@ var compareRoomsGuestsHandler = function () {
   roomsInput.setCustomValidity(errorMassage);
 };
 
+var checkFileTypeHandler = function (evt) {
+  var target = evt.target;
+  var fileType = '';
+
+  for (var i = target.value.length - 4; i < target.value.length; i++) {
+    fileType += target.value[i];
+  }
+
+  if (fileType !== '.png' || fileType !== '.jpg') {
+    target.setCustomValidity('Выберите файлы изображений с разрешением ".png" или ".jpg"');
+  }
+};
+
 var getInitialState = function () {
   disableElements(formFieldsets);
   disableElements(mapFiltersElements);
@@ -361,6 +378,3 @@ var getInitialState = function () {
 };
 
 getInitialState();
-
-
-// На селект чендж вешаем функцию которая сравнивает каррент значения двух селектов. Если сравнение не проходит то записываем текст ошибки. После сравнения даем сетКастомВалидити значение текста ошибки
