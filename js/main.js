@@ -284,11 +284,15 @@ var elementInputCheckHandler = function (evt) {
 };
 
 var priceMaxMinValidationHandler = function () {
+  var price = Number(priceInput.value);
+  var priceMin = Number(priceInput.min);
+  var priceMax = Number(priceInput.max);
+
   if (priceInput.value === '') {
     priceInput.setCustomValidity('Обязательное поле');
-  } else if (Number(priceInput.value) < Number(priceInput.min)) {
+  } else if (price < priceMin) {
     priceInput.setCustomValidity('Значение этого поля не должно быть выше чем ' + priceInput.min);
-  } else if (Number(priceInput.value) > Number(priceInput.max)) {
+  } else if (price > priceMax) {
     priceInput.setCustomValidity('Значение этого поля не должно быть ниже чем ' + priceInput.max);
   } else {
     priceInput.setCustomValidity('');
@@ -326,24 +330,26 @@ var timeCheckHandler = function (evt) {
   var remainingInput = (evt.target === timeInInput) ? timeOutInput : timeInInput;
 
   if (chosenInput.value === '12:00') {
-    remainingInput.value = '12:00';
+    remainingInput.value = chosenInput.value;
   } else if (chosenInput.value === '13:00') {
-    remainingInput.value = '13:00';
+    remainingInput.value = chosenInput.value;
   } else if (chosenInput.value === '14:00') {
-    remainingInput.value = '14:00';
+    remainingInput.value = chosenInput.value;
   }
 };
 
 var compareRoomsGuestsHandler = function () {
   var errorMassage = '';
+  var rooms = Number(roomsInput.value);
+  var guests = Number(guestsInput.value);
 
-  if (Number(roomsInput.value) < Number(guestsInput.value)) {
+  if (rooms < guests) {
     errorMassage = 'Количество комнат должно быть больше или равно количеству гостей';
-  } else if (Number(roomsInput.value) === 100 && Number(guestsInput.value) !== 0) {
+  } else if (rooms === 100 && guests !== 0) {
     errorMassage = 'Столько комнат - не для гостей';
   }
 
-  roomsInput.setCustomValidity(errorMassage); // поменял дефолтные значения селектов в разметке на 2 комнаты для 2 гостей, чтобы избежать отправки неверных данных
+  roomsInput.setCustomValidity(errorMassage);
 };
 
 var getInitialState = function () {
