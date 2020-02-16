@@ -12,8 +12,8 @@ var countPhotos = 5;
 var countRentObjects = 8;
 var MAIN_PIN_WIDTH = 62;
 var MAIN_PIN_HEIGHT = 80;
-// var countCards = 1;
-// var cardTemplate = document.querySelector('#card').content.querySelector('.map__card');
+var countCards = 8;
+var cardTemplate = document.querySelector('#card').content.querySelector('.map__card');
 var form = document.querySelector('.ad-form');
 var formFieldsets = form.querySelectorAll('fieldset');
 var addressInput = form.querySelector('#address');
@@ -32,6 +32,7 @@ var mainPin = map.querySelector('.map__pin--main');
 
 var showMap = function () {
   showPins();
+  mapPins.addEventListener('click', showCardHandler);
 
   form.classList.remove('ad-form--disabled');
   enableElements(formFieldsets);
@@ -183,85 +184,115 @@ var showPins = function () {
   mapPins.appendChild(fragment);
 };
 
-// var renderPhotos = function (imgArray, currentCard) {
-//   var photoWrapper = currentCard.querySelector('.popup__photos');
-//   var photoTemplate = photoWrapper.querySelector('.popup__photo');
+var renderPhotos = function (imgArray, currentCard) {
+  var photoWrapper = currentCard.querySelector('.popup__photos');
+  var photoTemplate = photoWrapper.querySelector('.popup__photo');
 
-//   while (photoWrapper.firstChild) {
-//     photoWrapper.removeChild(photoWrapper.firstChild);
-//   }
+  while (photoWrapper.firstChild) {
+    photoWrapper.removeChild(photoWrapper.firstChild);
+  }
 
-//   for (var i = 0; i < imgArray.length; i++) {
-//     var currentImg = photoTemplate.cloneNode(true);
+  for (var i = 0; i < imgArray.length; i++) {
+    var currentImg = photoTemplate.cloneNode(true);
 
-//     currentImg.src = imgArray[i];
+    currentImg.src = imgArray[i];
 
-//     photoWrapper.appendChild(currentImg);
-//   }
-// };
+    photoWrapper.appendChild(currentImg);
+  }
+};
 
-// var getCurrentObjectFeaturesList = function (featuresArray, currentCard) {
-//   var featuresList = currentCard.querySelector('.popup__features');
-//   var featureTemplate = featuresList.querySelector('.popup__feature');
+var getCurrentObjectFeaturesList = function (featuresArray, currentCard) {
+  var featuresList = currentCard.querySelector('.popup__features');
+  var featureTemplate = featuresList.querySelector('.popup__feature');
 
-//   featureTemplate.classList.remove('popup__feature--wifi');
+  featureTemplate.classList.remove('popup__feature--wifi');
 
-//   while (featuresList.firstChild) {
-//     featuresList.removeChild(featuresList.firstChild);
-//   }
+  while (featuresList.firstChild) {
+    featuresList.removeChild(featuresList.firstChild);
+  }
 
-//   for (var i = 0; i < featuresArray.length; i++) {
-//     var currentFeature = featureTemplate.cloneNode(true);
-//     var featureClass = 'popup__feature--' + featuresArray[i];
+  for (var i = 0; i < featuresArray.length; i++) {
+    var currentFeature = featureTemplate.cloneNode(true);
+    var featureClass = 'popup__feature--' + featuresArray[i];
 
-//     currentFeature.classList.add(featureClass);
-//     currentFeature.textContent = featuresArray[i];
+    currentFeature.classList.add(featureClass);
+    currentFeature.textContent = featuresArray[i];
 
-//     featuresList.appendChild(currentFeature);
-//   }
-// };
+    featuresList.appendChild(currentFeature);
+  }
+};
 
-// var getOfferType = function (card) {
-//   var objectType = '';
+var getOfferType = function (card) {
+  var objectType = '';
 
-//   if (card.offer.type === 'flat') {
-//     objectType = 'Квартира';
-//   } else if (card.offer.type === 'bungalo') {
-//     objectType = 'Бунгало';
-//   } else if (card.offer.type === 'house') {
-//     objectType = 'Дом';
-//   } else if (card.offer.type === 'palace') {
-//     objectType = 'Дворец';
-//   }
+  if (card.offer.type === 'flat') {
+    objectType = 'Квартира';
+  } else if (card.offer.type === 'bungalo') {
+    objectType = 'Бунгало';
+  } else if (card.offer.type === 'house') {
+    objectType = 'Дом';
+  } else if (card.offer.type === 'palace') {
+    objectType = 'Дворец';
+  }
 
-//   return objectType;
-// };
+  return objectType;
+};
 
-// var createCard = function (count) {
-//   var fragment = document.createDocumentFragment();
-//   var rentObjects = getRentObjects(count);
+// После отображения пинов нам нужно навесить на них обработчики с помощью делегирования
+// При клике на пин мы заполняем карточку и выводим ее сбоку карты.
 
-//   for (var i = 0; i < rentObjects.length; i++) {
-//     var currentCard = cardTemplate.cloneNode(true);
+var createCard = function (count, i) {
+  var fragment = document.createDocumentFragment();
+  var rentObjects = getRentObjects(count);
+  var currentCard = cardTemplate.cloneNode(true);
 
-//     currentCard.querySelector('.popup__title').textContent = rentObjects[i].offer.title;
-//     currentCard.querySelector('.popup__text--address').textContent = rentObjects[i].offer.address;
-//     currentCard.querySelector('.popup__text--price').textContent = rentObjects[i].offer.price + '₽/ночь';
-//     currentCard.querySelector('.popup__type').textContent = getOfferType(rentObjects[i]);
-//     currentCard.querySelector('.popup__text--capacity').textContent = rentObjects[i].offer.rooms + ' комнаты для ' + rentObjects[i].offer.guests + ' гостей';
-//     currentCard.querySelector('.popup__text--time').textContent = 'Заезд после ' + rentObjects[i].offer.checkin + ', выезд до ' + rentObjects[i].offer.checkout;
-//     getCurrentObjectFeaturesList(rentObjects[i].offer.features, currentCard);
-//     currentCard.querySelector('.popup__description').textContent = rentObjects[i].offer.description;
-//     renderPhotos(rentObjects[i].offer.photos, currentCard);
-//     currentCard.querySelector('.popup__avatar').src = rentObjects[i].author.avatar;
+  currentCard.querySelector('.popup__title').textContent = rentObjects[i].offer.title;
+  currentCard.querySelector('.popup__text--address').textContent = rentObjects[i].offer.address;
+  currentCard.querySelector('.popup__text--price').textContent = rentObjects[i].offer.price + '₽/ночь';
+  currentCard.querySelector('.popup__type').textContent = getOfferType(rentObjects[i]);
+  currentCard.querySelector('.popup__text--capacity').textContent = rentObjects[i].offer.rooms + ' комнаты для ' + rentObjects[i].offer.guests + ' гостей';
+  currentCard.querySelector('.popup__text--time').textContent = 'Заезд после ' + rentObjects[i].offer.checkin + ', выезд до ' + rentObjects[i].offer.checkout;
+  getCurrentObjectFeaturesList(rentObjects[i].offer.features, currentCard);
+  currentCard.querySelector('.popup__description').textContent = rentObjects[i].offer.description;
+  renderPhotos(rentObjects[i].offer.photos, currentCard);
+  currentCard.querySelector('.popup__avatar').src = rentObjects[i].author.avatar;
 
-//     fragment.appendChild(currentCard);
-//   }
+  fragment.appendChild(currentCard);
 
-//   map.insertBefore(fragment, map.querySelector('.map__filters-container'));
-// };
+  map.insertBefore(fragment, map.querySelector('.map__filters-container'));
+};
 
-// createCard(countCards);
+var showCardHandler = function (evt) {
+  var pressedButton = evt.target;
+
+  if ((pressedButton.matches('button') || pressedButton.parentElement.matches('button')) && !(pressedButton.matches('.map__pin--main') || pressedButton.parentElement.matches('.map__pin--main'))) {
+    while (!pressedButton.matches('button')) {
+      pressedButton = pressedButton.parentNode;
+    }
+
+    var buttonsList = pressedButton.parentNode.children;
+    for (var i = 0; i < buttonsList.length; i++) {
+      if (pressedButton === buttonsList[i]) {
+        var pressedButtonIndex = i - 2;
+        break;
+      }
+    }
+
+    for (var j = 0; j < map.children.length; j++) {
+      if (map.children[j].matches('article')) {
+        map.removeChild(map.children[j]);
+      }
+    }
+
+    createCard(countCards, pressedButtonIndex);
+    map.querySelector('.popup__close').addEventListener('click', closePopupHandler);
+  }
+};
+
+var closePopupHandler = function () {
+  var currentPopup = map.querySelector('article');
+  map.removeChild(currentPopup);
+};
 
 var elementLengthValidationHandler = function (evt) {
   var target = evt.target;
@@ -375,6 +406,7 @@ var getInitialState = function () {
 
   mainPin.addEventListener('mousedown', showMapHandler);
   mainPin.addEventListener('keydown', showMapHandler);
+
 };
 
 getInitialState();
