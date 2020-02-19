@@ -178,6 +178,8 @@ var showPins = function () {
     pinImage.src = rentObjects[i].author.avatar;
     pinImage.alt = rentObjects[i].offer.title;
 
+    pinElement.addEventListener('click', showCardHandler);
+
     fragment.appendChild(pinElement);
   }
 
@@ -263,30 +265,29 @@ var createCard = function (count, i) {
 };
 
 var showCardHandler = function (evt) {
-  var pressedButton = evt.target;
+  var pressedButton = evt.target.closest('button');
 
-  if ((pressedButton.matches('button') || pressedButton.parentElement.matches('button')) && !(pressedButton.matches('.map__pin--main') || pressedButton.parentElement.matches('.map__pin--main'))) {
-    while (!pressedButton.matches('button')) {
-      pressedButton = pressedButton.parentNode;
+  var buttonsList = pressedButton.parentNode.children;
+  for (var i = 0; i < buttonsList.length; i++) {
+    if (pressedButton === buttonsList[i]) {
+      var pressedButtonIndex = i - 2;
+      break;
     }
-
-    var buttonsList = pressedButton.parentNode.children;
-    for (var i = 0; i < buttonsList.length; i++) {
-      if (pressedButton === buttonsList[i]) {
-        var pressedButtonIndex = i - 2;
-        break;
-      }
-    }
-
-    for (var j = 0; j < map.children.length; j++) {
-      if (map.children[j].matches('article')) {
-        map.removeChild(map.children[j]);
-      }
-    }
-
-    createCard(countCards, pressedButtonIndex);
-    map.querySelector('.popup__close').addEventListener('click', closePopupHandler);
   }
+
+  for (var j = 0; j < map.children.length; j++) {
+    if (map.children[j].matches('article')) {
+      map.removeChild(map.children[j]);
+    }
+  }
+
+  createCard(countCards, pressedButtonIndex);
+  map.querySelector('.popup__close').addEventListener('click', closePopupHandler);
+  window.addEventListener('keydown', function (e) {
+    if (e.key === 'Escape') {
+      closePopupHandler();
+    }
+  });
 };
 
 var closePopupHandler = function () {
