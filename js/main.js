@@ -12,7 +12,6 @@ var countPhotos = 5;
 var countRentObjects = 8;
 var MAIN_PIN_WIDTH = 62;
 var MAIN_PIN_HEIGHT = 80;
-var countCards = 8;
 var cardTemplate = document.querySelector('#card').content.querySelector('.map__card');
 var form = document.querySelector('.ad-form');
 var formFieldsets = form.querySelectorAll('fieldset');
@@ -32,7 +31,6 @@ var mainPin = map.querySelector('.map__pin--main');
 
 var showMap = function () {
   showPins();
-  mapPins.addEventListener('click', showCardHandler);
 
   form.classList.remove('ad-form--disabled');
   enableElements(formFieldsets);
@@ -171,14 +169,17 @@ var showPins = function () {
   var rentObjects = getRentObjects(countRentObjects);
 
   for (var i = 0; i < rentObjects.length; i++) {
+    var rentObject = rentObjects[i];
     var pinElement = pinTemplate.cloneNode(true);
     var pinImage = pinElement.querySelector('img');
 
-    pinElement.style = 'left: ' + (rentObjects[i].location.x - 50) + 'px; top:' + (rentObjects[i].location.y - 70) + 'px;';
-    pinImage.src = rentObjects[i].author.avatar;
-    pinImage.alt = rentObjects[i].offer.title;
+    pinElement.style = 'left: ' + (rentObject.location.x - 50) + 'px; top:' + (rentObject.location.y - 70) + 'px;';
+    pinImage.src = rentObject.author.avatar;
+    pinImage.alt = rentObject.offer.title;
 
-    pinElement.addEventListener('click', showCardHandler);
+    pinElement.addEventListener('click', function () {
+      showCardHandler(rentObject);
+    });
 
     fragment.appendChild(pinElement);
   }
@@ -240,59 +241,47 @@ var getOfferType = function (card) {
   return objectType;
 };
 
-// После отображения пинов нам нужно навесить на них обработчики с помощью делегирования
-// При клике на пин мы заполняем карточку и выводим ее сбоку карты.
-
-var createCard = function (count, i) {
+var createCard = function (cardObject) {
   var fragment = document.createDocumentFragment();
-  var rentObjects = getRentObjects(count);
   var currentCard = cardTemplate.cloneNode(true);
-
-  currentCard.querySelector('.popup__title').textContent = rentObjects[i].offer.title;
-  currentCard.querySelector('.popup__text--address').textContent = rentObjects[i].offer.address;
-  currentCard.querySelector('.popup__text--price').textContent = rentObjects[i].offer.price + '₽/ночь';
-  currentCard.querySelector('.popup__type').textContent = getOfferType(rentObjects[i]);
-  currentCard.querySelector('.popup__text--capacity').textContent = rentObjects[i].offer.rooms + ' комнаты для ' + rentObjects[i].offer.guests + ' гостей';
-  currentCard.querySelector('.popup__text--time').textContent = 'Заезд после ' + rentObjects[i].offer.checkin + ', выезд до ' + rentObjects[i].offer.checkout;
-  getCurrentObjectFeaturesList(rentObjects[i].offer.features, currentCard);
-  currentCard.querySelector('.popup__description').textContent = rentObjects[i].offer.description;
-  renderPhotos(rentObjects[i].offer.photos, currentCard);
-  currentCard.querySelector('.popup__avatar').src = rentObjects[i].author.avatar;
+  currentCard.querySelector('.popup__title').textContent = cardObject.offer.title;
+  currentCard.querySelector('.popup__text--address').textContent = cardObject.offer.address;
+  currentCard.querySelector('.popup__text--price').textContent = cardObject.offer.price + '₽/ночь';
+  currentCard.querySelector('.popup__type').textContent = getOfferType(cardObject);
+  currentCard.querySelector('.popup__text--capacity').textContent = cardObject.offer.rooms + ' комнаты для ' + cardObject.offer.guests + ' гостей';
+  currentCard.querySelector('.popup__text--time').textContent = 'Заезд после ' + cardObject.offer.checkin + ', выезд до ' + cardObject.offer.checkout;
+  getCurrentObjectFeaturesList(cardObject.offer.features, currentCard);
+  currentCard.querySelector('.popup__description').textContent = cardObject.offer.description;
+  renderPhotos(cardObject.offer.photos, currentCard);
+  currentCard.querySelector('.popup__avatar').src = cardObject.author.avatar;
 
   fragment.appendChild(currentCard);
 
   map.insertBefore(fragment, map.querySelector('.map__filters-container'));
+  window.addEventListener('keydown', closePopupByKeyHandler);
+  map.querySelector('.popup__close').addEventListener('click', closePopupHandler);
 };
 
-var showCardHandler = function (evt) {
-  var pressedButton = evt.target.closest('button');
+var showCardHandler = function (cardObject) {
+  return function () {
+    createCard(cardObject);
+  };
+};
 
-  var buttonsList = pressedButton.parentNode.children;
-  for (var i = 0; i < buttonsList.length; i++) {
-    if (pressedButton === buttonsList[i]) {
-      var pressedButtonIndex = i - 2;
-      break;
-    }
+var closePopupByKeyHandler = function (evt) {
+  if (evt.key === 'Escape') {
+    closePopupHandler();
   }
-
-  for (var j = 0; j < map.children.length; j++) {
-    if (map.children[j].matches('article')) {
-      map.removeChild(map.children[j]);
-    }
-  }
-
-  createCard(countCards, pressedButtonIndex);
-  map.querySelector('.popup__close').addEventListener('click', closePopupHandler);
-  window.addEventListener('keydown', function (e) {
-    if (e.key === 'Escape') {
-      closePopupHandler();
-    }
-  });
 };
 
 var closePopupHandler = function () {
-  var currentPopup = map.querySelector('article');
-  map.removeChild(currentPopup);
+  var currentPopup = map.querySelector('.map__card'); // find using class , check using if, delete listeners
+
+  if (currentPopup) {
+    document.querySelector('.popup__close').removeEventListener('click', closePopupHandler);
+    window.removeEventListener('keydown', closePopupByKeyHandler);
+  }
+  currentPopup.remove();
 };
 
 var elementLengthValidationHandler = function (evt) {
