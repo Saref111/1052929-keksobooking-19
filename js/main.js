@@ -177,9 +177,7 @@ var showPins = function () {
     pinImage.src = rentObject.author.avatar;
     pinImage.alt = rentObject.offer.title;
 
-    pinElement.addEventListener('click', function () {
-      showCardHandler(rentObject);
-    });
+    pinElement.addEventListener('click', showCardHandler(rentObject));
 
     fragment.appendChild(pinElement);
   }
@@ -263,6 +261,7 @@ var createCard = function (cardObject) {
 };
 
 var showCardHandler = function (cardObject) {
+  closePopupHandler();
   return function () {
     createCard(cardObject);
   };
@@ -275,13 +274,13 @@ var closePopupByKeyHandler = function (evt) {
 };
 
 var closePopupHandler = function () {
-  var currentPopup = map.querySelector('.map__card'); // find using class , check using if, delete listeners
+  var currentPopup = map.querySelector('.map__card');
 
   if (currentPopup) {
     document.querySelector('.popup__close').removeEventListener('click', closePopupHandler);
     window.removeEventListener('keydown', closePopupByKeyHandler);
+    currentPopup.remove();
   }
-  currentPopup.remove();
 };
 
 var elementLengthValidationHandler = function (evt) {
