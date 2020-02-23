@@ -261,8 +261,8 @@ var createCard = function (cardObject) {
 };
 
 var showCardHandler = function (cardObject) {
-  closePopupHandler();
   return function () {
+    closePopupHandler();
     createCard(cardObject);
   };
 };
