@@ -1,17 +1,10 @@
 'use strict';
 
-var rentObjectType = ['palace', 'flat', 'house', 'bungalo'];
-var rentObjectCheckTime = ['12:00', '13:00', '14:00'];
-var rentObjectFeatures = ['wifi', 'dishwasher', 'parking', 'washer', 'elevator', 'conditioner'];
+
 var map = document.querySelector('.map');
 var mapPins = document.querySelector('.map__pins');
 var pinTemplate = document.querySelector('#pin').content.querySelector('.map__pin');
-var ROOMS = 10;
-var GUESTS = 5;
-var countPhotos = 5;
-var countRentObjects = 8;
-var MAIN_PIN_WIDTH = 62;
-var MAIN_PIN_HEIGHT = 80;
+
 var cardTemplate = document.querySelector('#card').content.querySelector('.map__card');
 var form = document.querySelector('.ad-form');
 var formFieldsets = form.querySelectorAll('fieldset');
@@ -41,13 +34,7 @@ var showMap = function () {
   mainPin.removeEventListener('mousedown', showMapHandler);
 };
 
-var disableElements = function (arr) {
-  for (var i = 0; i < arr.length; i++) {
-    if (arr[i].nodeName !== '#text') {
-      arr[i].setAttribute('disabled', true);
-    }
-  }
-};
+
 
 var showMapHandler = function (evt) {
   if (evt.button === 0 || evt.key === 'Enter') {
@@ -91,21 +78,9 @@ var getAddress = function (element) {
 };
 
 
-var enableElements = function (arr) {
-  for (var i = 0; i < arr.length; i++) {
-    if (arr[i].nodeName !== '#text') {
-      arr[i].removeAttribute('disabled');
-    }
-  }
-};
 
-var getRandomInt = function (max) {
-  return Math.floor(Math.random() * Math.floor(max));
-};
 
-var getRandomSlicedArray = function (arr) {
-  return arr.slice(0, getRandomInt(arr.length) + 1);
-};
+
 
 var getCurrentObjectFeatures = function (ObjectFeatures) {
   var currentObjectFeatures = [];
