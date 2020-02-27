@@ -25,10 +25,32 @@
     return arr.slice(0, getRandomInt(arr.length) + 1);
   };
 
+  var getAddress = function (element) {
+    var elementPositionX = element.style.left;
+    var elementPositionY = element.style.top;
+    var addressX = '';
+    var addressY = '';
+
+    for (var i = 0; i < elementPositionX.length - 2; i++) {
+      addressX += elementPositionX[i];
+    }
+
+    addressX = Number(addressX) + window.util.MAIN_PIN_WIDTH / 2;
+
+    for (var j = 0; j < elementPositionY.length - 2; j++) {
+      addressY += Number(elementPositionY[j]);
+    }
+
+    addressY = Number(addressY) + window.util.MAIN_PIN_HEIGHT;
+
+    return addressX + ' ' + addressY;
+  };
+
   window.util = {
     disableElements: disableElements,
     enableElements: enableElements,
     getRandomInt: getRandomInt,
-    getRandomSlicedArray: getRandomSlicedArray
+    getRandomSlicedArray: getRandomSlicedArray,
+    getAddress: getAddress
   };
 })();
