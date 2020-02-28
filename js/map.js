@@ -36,6 +36,8 @@
     mainPin.addEventListener('keydown', showMapHandler);
   };
 
-  getInitialState();
+  window.map = {
+    getInitialState: getInitialState
+  };
 
 })();

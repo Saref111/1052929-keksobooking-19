@@ -35,13 +35,13 @@
       addressX += elementPositionX[i];
     }
 
-    addressX = Number(addressX) + window.util.MAIN_PIN_WIDTH / 2;
+    addressX = Number(addressX) + window.data.MAIN_PIN_WIDTH / 2;
 
     for (var j = 0; j < elementPositionY.length - 2; j++) {
       addressY += Number(elementPositionY[j]);
     }
 
-    addressY = Number(addressY) + window.util.MAIN_PIN_HEIGHT;
+    addressY = Number(addressY) + window.data.MAIN_PIN_HEIGHT;
 
     return addressX + ' ' + addressY;
   };
