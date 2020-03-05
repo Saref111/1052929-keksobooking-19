@@ -11,6 +11,18 @@
   var guestsInput = form.querySelector('#capacity');
   var avatarInput = form.querySelector('#avatar');
   var roomPictureInput = form.querySelector('#images');
+  var resetButton = form.querySelector('.ad-form__reset');
+  var descriptionInput = form.querySelector('#description');
+
+  var formResetHandler = function (evt) {
+    evt.preventDefault();
+
+    var empty = '';
+
+    titleInput.value = empty;
+    priceInput.value = empty;
+    descriptionInput.value = empty;
+  };
 
   var elementLengthValidationHandler = function (evt) {
     var target = evt.target;
@@ -140,6 +152,7 @@
     avatarInput.addEventListener('input', checkFileTypeHandler);
     roomPictureInput.addEventListener('input', checkFileTypeHandler);
     form.addEventListener('submit', submitFormHandler, window.message.error);
+    resetButton.addEventListener('click', formResetHandler);
   };
 
   window.form = {
