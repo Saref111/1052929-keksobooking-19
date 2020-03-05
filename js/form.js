@@ -1,6 +1,8 @@
 'use strict';
 
 (function () {
+  var mapPins = document.querySelector('.map__pins');
+  var map = document.querySelector('.map');
   var form = document.querySelector('.ad-form');
   var titleInput = form.querySelector('#title');
   var priceInput = form.querySelector('#price');
@@ -118,9 +120,16 @@
     }
   };
 
+  var submitFormHandler = function (evt) {
+    window.backend.save(new FormData(form), function () {
+      window.message.success();
+      window.pin.deletePins();
+      window.map.getInitialState();
+    }, window.message.error);
+    evt.preventDefault();
+  };
+
   var setFormHandlers = function () {
-
-
     titleInput.addEventListener('invalid', elementLengthValidationHandler);
     titleInput.addEventListener('input', elementInputCheckHandler);
     priceInput.addEventListener('invalid', priceMaxMinValidationHandler);
@@ -132,6 +141,7 @@
     guestsInput.addEventListener('change', compareRoomsGuestsHandler);
     avatarInput.addEventListener('input', checkFileTypeHandler);
     roomPictureInput.addEventListener('input', checkFileTypeHandler);
+    form.addEventListener('submit', submitFormHandler, window.message.error);
   };
 
   window.form = {
