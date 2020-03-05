@@ -1,8 +1,6 @@
 'use strict';
 
 (function () {
-  var mapPins = document.querySelector('.map__pins');
-  var map = document.querySelector('.map');
   var form = document.querySelector('.ad-form');
   var titleInput = form.querySelector('#title');
   var priceInput = form.querySelector('#price');

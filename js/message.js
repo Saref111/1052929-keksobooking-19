@@ -7,7 +7,7 @@
 
   var hideErrorModalHandler = function () {
     errorModal.remove();
-    document.removeEventListener('mousedown', hideModalHandler);
+    document.removeEventListener('mousedown', hideErrorModalHandler);
   };
 
   var hideSuccessModalHandler = function () {
