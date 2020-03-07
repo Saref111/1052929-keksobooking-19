@@ -103,6 +103,7 @@
   };
 
   window.card = {
-    show: showCardHandler
+    show: showCardHandler,
+    close: closePopupHandler
   };
 })();

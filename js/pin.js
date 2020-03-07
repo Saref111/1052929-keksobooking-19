@@ -6,10 +6,12 @@
   var pinElements = [];
 
   var successHandler = function (rentObjects) {
+    var filteredObjects = window.filter.check(rentObjects);
+
     var fragment = document.createDocumentFragment();
 
-    for (var i = 0; i < rentObjects.length; i++) {
-      var rentObject = rentObjects[i];
+    for (var i = 0; i < filteredObjects.length; i++) {
+      var rentObject = filteredObjects[i];
       var pinElement = pinTemplate.cloneNode(true);
       var pinImage = pinElement.querySelector('img');
 
@@ -40,6 +42,6 @@
 
   window.pin = {
     show: showPins,
-    deletePins: deletePins
+    delete: deletePins
   };
 })();

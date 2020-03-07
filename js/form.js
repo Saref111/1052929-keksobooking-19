@@ -133,7 +133,7 @@
   var submitFormHandler = function (evt) {
     window.backend.save(new FormData(form), function () {
       window.message.success();
-      window.pin.deletePins();
+      window.pin.delete();
       window.map.getInitialState();
     }, window.message.error);
     evt.preventDefault();
