@@ -8,6 +8,7 @@
   var GUESTS = 5;
   var countPhotos = 5;
   var countRentObjects = 8;
+  var MAX_PINS_QUANTITY = 5;
   var MAIN_PIN_WIDTH = 62;
   var MAIN_PIN_HEIGHT = 80;
 
@@ -20,6 +21,7 @@
     countPhotos: countPhotos,
     countRentObjects: countRentObjects,
     MAIN_PIN_WIDTH: MAIN_PIN_WIDTH,
-    MAIN_PIN_HEIGHT: MAIN_PIN_HEIGHT
+    MAIN_PIN_HEIGHT: MAIN_PIN_HEIGHT,
+    MAX_PINS_QUANTITY: MAX_PINS_QUANTITY
   };
 })();

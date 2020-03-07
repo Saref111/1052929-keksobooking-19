@@ -20,7 +20,9 @@
       pinElement.addEventListener('click', window.card.show(rentObject));
 
       pinElements.push(pinElement);
-      fragment.appendChild(pinElement);
+      if (fragment.children.length < window.data.MAX_PINS_QUANTITY) {
+        fragment.appendChild(pinElement);
+      }
     }
 
     mapPins.appendChild(fragment);
