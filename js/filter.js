@@ -27,7 +27,7 @@
     return reply;
   };
 
-  var filter = function (arr) {
+  var filterAdvertisement = function (arr) {
     var filteredArray = arr;
 
     if (typeFilter.value !== 'any') {
@@ -104,10 +104,11 @@
   filterForm.addEventListener('change', function () {
     window.card.close();
     window.pin.delete();
-    window.pin.show();
+    var filteredObjects = filterAdvertisement(window.data.cacheRentObjects);
+    window.pin.render(filteredObjects);
   });
 
   window.filter = {
-    check: filter
+    advertisement: filterAdvertisement
   };
 })();

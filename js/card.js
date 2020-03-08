@@ -8,9 +8,7 @@
     var photoWrapper = currentCard.querySelector('.popup__photos');
     var photoTemplate = photoWrapper.querySelector('.popup__photo');
 
-    while (photoWrapper.firstChild) {
-      photoWrapper.removeChild(photoWrapper.firstChild);
-    }
+    window.util.removeChildElements(photoWrapper);
 
     for (var i = 0; i < imgArray.length; i++) {
       var currentImg = photoTemplate.cloneNode(true);
@@ -21,15 +19,13 @@
     }
   };
 
-  var getCurrentObjectFeaturesList = function (featuresArray, currentCard) {
-    var featuresList = currentCard.querySelector('.popup__features');
+  var renderFeaturesList = function (featuresArray, currentCard) {
+    var featuresList = currentCard.querySelector('.popup__features'); //Добавить к имени "элемент"
     var featureTemplate = featuresList.querySelector('.popup__feature');
 
     featureTemplate.classList.remove('popup__feature--wifi');
 
-    while (featuresList.firstChild) {
-      featuresList.removeChild(featuresList.firstChild);
-    }
+    window.util.removeChildElements(featuresList);
 
     for (var i = 0; i < featuresArray.length; i++) {
       var currentFeature = featureTemplate.cloneNode(true);
@@ -67,10 +63,10 @@
     currentCard.querySelector('.popup__type').textContent = getOfferType(cardObject);
     currentCard.querySelector('.popup__text--capacity').textContent = cardObject.offer.rooms + ' комнаты для ' + cardObject.offer.guests + ' гостей';
     currentCard.querySelector('.popup__text--time').textContent = 'Заезд после ' + cardObject.offer.checkin + ', выезд до ' + cardObject.offer.checkout;
-    getCurrentObjectFeaturesList(cardObject.offer.features, currentCard);
     currentCard.querySelector('.popup__description').textContent = cardObject.offer.description;
-    renderPhotos(cardObject.offer.photos, currentCard);
     currentCard.querySelector('.popup__avatar').src = cardObject.author.avatar;
+    renderPhotos(cardObject.offer.photos, currentCard);
+    renderFeaturesList(cardObject.offer.features, currentCard);
 
     fragment.appendChild(currentCard);
 

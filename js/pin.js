@@ -5,9 +5,7 @@
   var pinTemplate = document.querySelector('#pin').content.querySelector('.map__pin');
   var pinElements = [];
 
-  var successHandler = function (rentObjects) {
-    var filteredObjects = window.filter.check(rentObjects);
-
+  var renderPins = function (filteredObjects) {
     var fragment = document.createDocumentFragment();
 
     for (var i = 0; i < filteredObjects.length; i++) {
@@ -30,10 +28,6 @@
     mapPins.appendChild(fragment);
   };
 
-  var showPins = function () {
-    window.backend.load(successHandler, window.message.error);
-  };
-
   var deletePins = function () {
     pinElements.forEach(function (pinElement) {
       pinElement.remove();
@@ -41,7 +35,7 @@
   };
 
   window.pin = {
-    show: showPins,
+    render: renderPins,
     delete: deletePins
   };
 })();

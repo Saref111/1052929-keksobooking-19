@@ -131,12 +131,14 @@
   };
 
   var submitFormHandler = function (evt) {
+    evt.preventDefault();
+
     window.backend.save(new FormData(form), function () {
       window.message.success();
       window.pin.delete();
+      window.card.close();
       window.map.getInitialState();
     }, window.message.error);
-    evt.preventDefault();
   };
 
   var setFormHandlers = function () {

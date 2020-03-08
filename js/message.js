@@ -10,37 +10,43 @@
     errorModal.remove();
     document.removeEventListener('mousedown', hideErrorModalHandler);
     errorButton.removeEventListener('click', hideErrorModalHandler);
+    document.removeEventListener('keydown', keydownErrorHandler);
   };
 
   var hideSuccessModalHandler = function () {
     successModal.remove();
     document.removeEventListener('mousedown', hideSuccessModalHandler);
+    document.removeEventListener('keydown', keydownSuccessHandler);
   };
 
-  var error = function (errorMassage) {
+  var keydownErrorHandler = function (evt) {
+    if (evt.key === 'Escape') {
+      hideErrorModalHandler();
+    }
+  };
+
+  var keydownSuccessHandler = function (evt) {
+    if (evt.key === 'Escape') {
+      hideSuccessModalHandler();
+    }
+  };
+
+  var showError = function (errorMassage) {
     message.textContent = errorMassage;
     document.querySelector('main').insertAdjacentElement('afterbegin', errorModal);
     document.addEventListener('mousedown', hideErrorModalHandler);
     errorButton.addEventListener('click', hideErrorModalHandler);
-    document.addEventListener('keydown', function (evt) {
-      if (evt.key === 'Escape') {
-        hideErrorModalHandler();
-      }
-    });
+    document.addEventListener('keydown', keydownErrorHandler);
   };
 
-  var success = function () {
+  var showSuccess = function () {
     document.querySelector('main').insertAdjacentElement('afterbegin', successModal);
     document.addEventListener('mousedown', hideSuccessModalHandler);
-    document.addEventListener('keydown', function (evt) {
-      if (evt.key === 'Escape') {
-        hideSuccessModalHandler();
-      }
-    });
+    document.addEventListener('keydown', keydownSuccessHandler);
   };
 
   window.message = {
-    error: error,
-    success: success
+    error: showError,
+    success: showSuccess
   };
 })();
