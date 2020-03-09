@@ -1,20 +1,20 @@
 'use strict';
 
 (function () {
-  var errorModal = document.querySelector('#error').content.querySelector('.error');
-  var message = errorModal.querySelector('.error__message');
-  var errorButton = errorModal.querySelector('.error__button');
-  var successModal = document.querySelector('#success').content.querySelector('.success');
+  var errorModalElement = document.querySelector('#error').content.querySelector('.error');
+  var messageElement = errorModalElement.querySelector('.error__message');
+  var errorButtonElement = errorModalElement.querySelector('.error__button');
+  var successModalElement = document.querySelector('#success').content.querySelector('.success');
 
   var hideErrorModalHandler = function () {
-    errorModal.remove();
+    errorModalElement.remove();
     document.removeEventListener('mousedown', hideErrorModalHandler);
-    errorButton.removeEventListener('click', hideErrorModalHandler);
+    errorButtonElement.removeEventListener('click', hideErrorModalHandler);
     document.removeEventListener('keydown', keydownErrorHandler);
   };
 
   var hideSuccessModalHandler = function () {
-    successModal.remove();
+    successModalElement.remove();
     document.removeEventListener('mousedown', hideSuccessModalHandler);
     document.removeEventListener('keydown', keydownSuccessHandler);
   };
@@ -32,15 +32,15 @@
   };
 
   var showError = function (errorMassage) {
-    message.textContent = errorMassage;
-    document.querySelector('main').insertAdjacentElement('afterbegin', errorModal);
+    messageElement.textContent = errorMassage;
+    document.querySelector('main').insertAdjacentElement('afterbegin', errorModalElement);
     document.addEventListener('mousedown', hideErrorModalHandler);
-    errorButton.addEventListener('click', hideErrorModalHandler);
+    errorButtonElement.addEventListener('click', hideErrorModalHandler);
     document.addEventListener('keydown', keydownErrorHandler);
   };
 
   var showSuccess = function () {
-    document.querySelector('main').insertAdjacentElement('afterbegin', successModal);
+    document.querySelector('main').insertAdjacentElement('afterbegin', successModalElement);
     document.addEventListener('mousedown', hideSuccessModalHandler);
     document.addEventListener('keydown', keydownSuccessHandler);
   };

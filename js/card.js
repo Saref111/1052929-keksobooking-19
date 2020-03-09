@@ -1,7 +1,7 @@
 'use strict';
 
 (function () {
-  var map = document.querySelector('.map');
+  var mapElement = document.querySelector('.map');
   var cardTemplate = document.querySelector('#card').content.querySelector('.map__card');
 
   var renderPhotos = function (imgArray, currentCard) {
@@ -20,12 +20,12 @@
   };
 
   var renderFeaturesList = function (featuresArray, currentCard) {
-    var featuresList = currentCard.querySelector('.popup__features'); //Добавить к имени "элемент"
-    var featureTemplate = featuresList.querySelector('.popup__feature');
+    var featuresListElement = currentCard.querySelector('.popup__features');
+    var featureTemplate = featuresListElement.querySelector('.popup__feature');
 
     featureTemplate.classList.remove('popup__feature--wifi');
 
-    window.util.removeChildElements(featuresList);
+    window.util.removeChildElements(featuresListElement);
 
     for (var i = 0; i < featuresArray.length; i++) {
       var currentFeature = featureTemplate.cloneNode(true);
@@ -34,7 +34,7 @@
       currentFeature.classList.add(featureClass);
       currentFeature.textContent = featuresArray[i];
 
-      featuresList.appendChild(currentFeature);
+      featuresListElement.appendChild(currentFeature);
     }
   };
 
@@ -70,9 +70,9 @@
 
     fragment.appendChild(currentCard);
 
-    map.insertBefore(fragment, map.querySelector('.map__filters-container'));
+    mapElement.insertBefore(fragment, mapElement.querySelector('.map__filters-container'));
     window.addEventListener('keydown', closePopupByKeyHandler);
-    map.querySelector('.popup__close').addEventListener('click', closePopupHandler);
+    mapElement.querySelector('.popup__close').addEventListener('click', closePopupHandler);
   };
 
   var showCardHandler = function (cardObject) {
@@ -89,12 +89,12 @@
   };
 
   var closePopupHandler = function () {
-    var currentPopup = map.querySelector('.map__card');
+    var currentPopupElement = mapElement.querySelector('.map__card');
 
-    if (currentPopup) {
+    if (currentPopupElement) {
       document.querySelector('.popup__close').removeEventListener('click', closePopupHandler);
       window.removeEventListener('keydown', closePopupByKeyHandler);
-      currentPopup.remove();
+      currentPopupElement.remove();
     }
   };
 

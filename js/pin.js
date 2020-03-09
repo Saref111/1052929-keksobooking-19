@@ -1,7 +1,7 @@
 'use strict';
 
 (function () {
-  var mapPins = document.querySelector('.map__pins');
+  var mapPinElements = document.querySelector('.map__pins');
   var pinTemplate = document.querySelector('#pin').content.querySelector('.map__pin');
   var pinElements = [];
 
@@ -25,7 +25,7 @@
       }
     }
 
-    mapPins.appendChild(fragment);
+    mapPinElements.appendChild(fragment);
   };
 
   var deletePins = function () {
