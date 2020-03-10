@@ -14,14 +14,17 @@
   var resetButtonElement = formElement.querySelector('.ad-form__reset');
   var descriptionInputElement = formElement.querySelector('#description');
 
-  var formResetHandler = function (evt) {
-    evt.preventDefault();
-
+  var resetForm = function () {
     var empty = '';
 
     titleInputElement.value = empty;
     priceInputElement.value = empty;
     descriptionInputElement.value = empty;
+  };
+
+  var formResetHandler = function (evt) {
+    evt.preventDefault();
+    resetForm();
   };
 
   var elementLengthValidationHandler = function (evt) {
@@ -137,6 +140,7 @@
       window.message.success();
       window.pin.delete();
       window.card.close();
+      window.form.reset();
       window.map.getInitialState();
     }, window.message.error);
   };
@@ -158,6 +162,7 @@
   };
 
   window.form = {
-    setHandlers: setFormHandlers
+    setHandlers: setFormHandlers,
+    reset: resetForm
   };
 })();

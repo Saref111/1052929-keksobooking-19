@@ -19,7 +19,7 @@
   var isFeaturesMatched = function (arr, filterValue) {
     var reply = false;
 
-    arr.forEach(function (element) {
+    arr.some(function (element) {
       if (element === filterValue) {
         reply = true;
       }
@@ -116,6 +116,6 @@
   });
 
   window.filter = {
-    advertisement: filterAdvertisement
+    use: filterAdvertisement
   };
 })();
