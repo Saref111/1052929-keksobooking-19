@@ -19,10 +19,8 @@
   var isFeaturesMatched = function (arr, filterValue) {
     var reply = false;
 
-    arr.some(function (element) {
-      if (element === filterValue) {
-        reply = true;
-      }
+    reply = arr.some(function (element) {
+      return element === filterValue;
     });
 
     return reply;
